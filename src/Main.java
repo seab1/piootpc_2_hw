@@ -12,7 +12,7 @@ public class Main
 	public static void main(String[] args)
 	{
 		Main main = new Main();
-		main.createDatabase();
+		main.testDatabase();
 		//main.removePhotosQuery();
 		//main.removeAlbumsQuery();
 		//main.removeUsersQuery();
@@ -28,7 +28,7 @@ public class Main
 		HibernateUtil.shutdown();
 	}
 	
-	private void createDatabase()
+	private void testDatabase()
 	{
 		User newUser = new User();
 		newUser.setUsername("prethor7");

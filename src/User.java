@@ -21,8 +21,8 @@ public class User implements java.io.Serializable
 	@JoinColumn(name="user_id")
 	private Set<Album> albums = new HashSet<Album>();
 	
-	@ManyToMany(mappedBy="users", cascade={CascadeType.PERSIST, CascadeType.MERGE})
-	private Set<Photo> photos = new HashSet<Photo>();
+	@ManyToMany(mappedBy="likingUsers", cascade={CascadeType.PERSIST, CascadeType.MERGE})
+	private Set<Photo> likedPhotos = new HashSet<Photo>();
 	
 	public User() {}
 	
@@ -40,10 +40,10 @@ public class User implements java.io.Serializable
 	public void addAlbum(Album album) {albums.add(album);}
 	public void removeAlbum(Album album) {albums.remove(album);}
 	
-	public Set<Photo> getLikedPhotos() {return photos;}
-	public void setLikedPhotos(Set<Photo> photos) {this.photos = photos;}
-	public void likePhoto(Photo photo) {photos.add(photo);}
-	public void unlikePhoto(Photo photo) {photos.remove(photo);}
+	public Set<Photo> getLikedPhotos() {return likedPhotos;}
+	public void setLikedPhotos(Set<Photo> photos) {this.likedPhotos = photos;}
+	public void likePhoto(Photo photo) {likedPhotos.add(photo);}
+	public void unlikePhoto(Photo photo) {likedPhotos.remove(photo);}
 	
 	public String toString() {return "User: " + getUsername() + ", joined on: " + getJoinDate();}
 }

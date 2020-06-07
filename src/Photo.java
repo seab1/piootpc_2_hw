@@ -22,7 +22,7 @@ public class Photo
 		joinColumns=@JoinColumn(name="photo_id"),
 		inverseJoinColumns=@JoinColumn(name="user_id")
 	)
-	Set<User> users = new HashSet<User>();
+	Set<User> likingUsers = new HashSet<User>();
 	
 	public Photo() {}
 	
@@ -35,10 +35,10 @@ public class Photo
 	public String getDate() {return date;}
 	public void setDate(String date) {this.date = date;}
 	
-	public Set<User> getLikingUsers() {return users;}
-	public void setLikingUsers(Set<User> users) {this.users = users;}
-	public void linkLikingUser(User user) {users.add(user);}
-	public void removeLikingUser(User user) {users.remove(user);}
+	public Set<User> getLikingUsers() {return likingUsers;}
+	public void setLikingUsers(Set<User> users) {this.likingUsers = users;}
+	public void linkLikingUser(User user) {likingUsers.add(user);}
+	public void removeLikingUser(User user) {likingUsers.remove(user);}
 
 	public String toString() {return "Photo: " + getName() + ", posted on: " + getDate();}
 }
