@@ -60,20 +60,24 @@ public class Main
 		user1.addAlbum(album1);
 		user2.addAlbum(album2);
 		
+		user1.makeFriend(user2);
+		user2.makeFriend(user1);
+		
 		photo1.linkLikingUser(user1);
 		photo2.linkLikingUser(user1);
 		
 		//photo2.removeLikingUser(user1);
 	
 		Transaction transaction = session.beginTransaction();
-		session.save(user1);
-		session.save(user2);
+		session.persist(user1);
+		session.persist(user2);
 		session.save(album1);
 		session.save(album2);
 		session.save(photo1);
 		session.save(photo2);
 		session.save(photo3);
 		transaction.commit();
+		session.clear();
 	}
 	
 	private void removePhotosQuery()

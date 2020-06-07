@@ -24,6 +24,16 @@ public class User implements java.io.Serializable
 	@ManyToMany(mappedBy="likingUsers", cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	private Set<Photo> likedPhotos = new HashSet<Photo>();
 	
+	@ManyToMany
+	@JoinTable(name="friends",
+	 joinColumns=@JoinColumn(name="friend1_id"),
+	 inverseJoinColumns=@JoinColumn(name="friend2_id")
+	)
+	private Set<User> friendsOf = new HashSet<User>();
+	
+	@ManyToMany(mappedBy="friendsOf")
+	private Set<User> friendOf = new HashSet<User>(); 
+	
 	public User() {}
 	
 	public long getId() {return id;}
@@ -44,6 +54,11 @@ public class User implements java.io.Serializable
 	public void setLikedPhotos(Set<Photo> photos) {this.likedPhotos = photos;}
 	public void likePhoto(Photo photo) {likedPhotos.add(photo);}
 	public void unlikePhoto(Photo photo) {likedPhotos.remove(photo);}
+	
+	public Set<User> getFriendsOf() {return friendsOf;}
+	public void setFriendsOf(Set<User> friends) {this.friendsOf = friends;}
+	public void makeFriend(User friend) {friendsOf.add(friend);}
+	public void unfriend(User friend) {friendsOf.remove(friend);}
 	
 	public String toString() {return "User: " + getUsername() + ", joined on: " + getJoinDate();}
 }
