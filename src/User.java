@@ -52,11 +52,38 @@ public class User implements java.io.Serializable
 	
 	public Set<Photo> getLikedPhotos() {return likedPhotos;}
 	public void setLikedPhotos(Set<Photo> photos) {this.likedPhotos = photos;}
-	public void likePhoto(Photo photo) {likedPhotos.add(photo);}
+	
+	public boolean verifyPhotoPossession(User friend, Photo photo)
+	{
+		for(Album album : friend.getAlbums())
+		{
+			if(album.getPhotos().contains(photo)) return true;
+		}
+		
+		for(Album album : this.getAlbums())
+		{
+			if(album.getPhotos().contains(photo)) return true;
+		}
+		
+		return false;
+	}
+	
+	public void likePhoto(Photo photo)
+	{
+		for(User friend : this.getFriendsOf())
+		{
+			if(verifyPhotoPossession(friend, photo))
+			{
+				likedPhotos.add(photo);
+				break;
+			}
+		}
+	}
+	
 	public void unlikePhoto(Photo photo) {likedPhotos.remove(photo);}
 	
 	public Set<User> getFriendsOf() {return friendsOf;}
-	public void setFriendsOf(Set<User> friends) {this.friendsOf = friends;}
+	public void setFriendsOf(Set<User> friends) {this.friendsOf = friends;}	
 	public void makeFriend(User friend) {friendsOf.add(friend);}
 	public void unfriend(User friend) {friendsOf.remove(friend);}
 	

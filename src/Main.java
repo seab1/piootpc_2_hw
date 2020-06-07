@@ -65,8 +65,10 @@ public class Main
 		
 		photo1.linkLikingUser(user1);
 		photo2.linkLikingUser(user1);
+		photo3.linkLikingUser(user1);
 		
 		//photo2.removeLikingUser(user1);
+		user1.unfriend(user2);
 	
 		Transaction transaction = session.beginTransaction();
 		session.persist(user1);

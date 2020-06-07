@@ -37,8 +37,35 @@ public class Photo
 	
 	public Set<User> getLikingUsers() {return likingUsers;}
 	public void setLikingUsers(Set<User> users) {this.likingUsers = users;}
-	public void linkLikingUser(User user) {likingUsers.add(user);}
-	public void removeLikingUser(User user) {likingUsers.remove(user);}
+	
+	public boolean verifyPhotoPossession(User friend, User liker)
+	{
+		for(Album album : friend.getAlbums())
+		{
+			if(album.getPhotos().contains(this)) return true;
+		}
+		
+		for(Album album : liker.getAlbums())
+		{
+			if(album.getPhotos().contains(this)) return true;
+		}
+		
+		return false;
+	}
+	
+	public void linkLikingUser(User user)
+	{
+		for(User friend : user.getFriendsOf())
+		{
+			if(verifyPhotoPossession(friend, user))
+			{
+				likingUsers.add(user);
+				break;
+			}
+		}
+	}
 
+	public void removeLikingUser(User user) {likingUsers.remove(user);}
+	
 	public String toString() {return "Photo: " + getName() + ", posted on: " + getDate();}
 }
