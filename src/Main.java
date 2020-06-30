@@ -12,7 +12,7 @@ public class Main
 	public static void main(String[] args)
 	{
 		Main main = new Main();
-		main.createDatabase();
+		main.testDatabase();
 		//main.removePhotosQuery();
 		//main.removeAlbumsQuery();
 		//main.removeUsersQuery();
@@ -28,41 +28,58 @@ public class Main
 		HibernateUtil.shutdown();
 	}
 	
-	private void createDatabase()
+	private void testDatabase()
 	{
-		User newUser = new User();
-		newUser.setUsername("prethor7");
-		newUser.setJoinDate("27.06.1995");
+		User user1 = new User();
+		user1.setUsername("prethor7");
+		user1.setJoinDate("27.06.1995");
+		User user2 = new User();
+		user2.setUsername("gadzina13");
+		user2.setJoinDate("20.02.1998");
 		
-		Album newAlbum = new Album();
-		newAlbum.setName("Wakacje");
-		newAlbum.setDescription("Zdjêcia z wakacji");
+		Album album1 = new Album();
+		album1.setName("Wakacje");
+		album1.setDescription("Zdjêcia z wakacji");
+		Album album2 = new Album();
+		album2.setName("Zwiedzanie");
+		album2.setDescription("Zdjêcia z wycieczki do Bukaresztu");
 		
-		Photo newPhoto = new Photo();
-		newPhoto.setName("Nad morzem");
-		newPhoto.setDate("01.08.2020");
-		Photo newerPhoto = new Photo();
-		newerPhoto.setName("W górach");
-		newerPhoto.setDate("04.08.2020");
+		Photo photo1 = new Photo();
+		photo1.setName("Nad morzem");
+		photo1.setDate("01.08.2020");
+		Photo photo2 = new Photo();
+		photo2.setName("W górach");
+		photo2.setDate("04.08.2020");
+		Photo photo3 = new Photo();
+		photo3.setName("Rynek");
+		photo3.setDate("01.08.2019");
 		
-		newAlbum.addPhoto(newPhoto);
-		newAlbum.addPhoto(newerPhoto);
-		newUser.addAlbum(newAlbum);
+		album1.addPhoto(photo1);
+		album1.addPhoto(photo2);
+		album2.addPhoto(photo3);
+		user1.addAlbum(album1);
+		user2.addAlbum(album2);
 		
-		newUser.likePhoto(newPhoto);
-		newPhoto.linkLikingUser(newUser);
-		newUser.likePhoto(newerPhoto);
-		newerPhoto.linkLikingUser(newUser);
+		user1.makeFriend(user2);
+		user2.makeFriend(user1);
 		
-		//newUser.unlikePhoto(newerPhoto);
-		//newerPhoto.removeLikingUser(newUser);
+		photo1.linkLikingUser(user1);
+		photo2.linkLikingUser(user1);
+		photo3.linkLikingUser(user1);
+		
+		//photo2.removeLikingUser(user1);
+		user1.unfriend(user2);
 	
 		Transaction transaction = session.beginTransaction();
-		session.save(newUser);
-		session.save(newAlbum);
-		session.save(newPhoto);
-		session.save(newerPhoto);
+		session.persist(user1);
+		session.persist(user2);
+		session.save(album1);
+		session.save(album2);
+		session.save(photo1);
+		session.save(photo2);
+		session.save(photo3);
 		transaction.commit();
+		session.clear();
 	}
 	
 	private void removePhotosQuery()
